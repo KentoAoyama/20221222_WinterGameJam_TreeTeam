@@ -144,6 +144,7 @@ public class InGameController : MonoBehaviour
         if (_time < 0 && !_isFinish)
         {
             StartCoroutine(FinishGame());
+            SoundManager.Instance.PlaySFX(SFXNames.END);
         }
     }
 

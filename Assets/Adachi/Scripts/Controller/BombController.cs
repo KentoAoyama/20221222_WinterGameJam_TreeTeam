@@ -3,8 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MochiController : ItemBase
+public class BombController : ItemBase
 {
+    [SerializeField]
+    [Header("Á‚·–İ‚Ì”")]
+    private int _popCount = 4;
+
     private void Awake()
     {
         OnMove();
@@ -18,11 +22,16 @@ public class MochiController : ItemBase
 
     protected override void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == _playerTag)
+        if (collision.gameObject.tag == _playerTag)
         {
             _isMoving = false;
-            gameObject.tag = _playerTag;
-            gameObject.layer = 7;
+
+            SoundManager.Instance.PlaySFX(SFXNames.EXPLOSION);
+
+            //GameManager‚ª‚Á‚Ä‚¢‚éŠÖ”‚ğŒÄ‚Ño‚·
+            GameManager.Instance.BombMochi(_popCount);
+
+            Destroy(gameObject);
         }
     }
 
@@ -30,7 +39,7 @@ public class MochiController : ItemBase
     {
         while(_isMoving)
         {
-            transform.Translate(0f, -_speed, 0f);
+            transform.Translate(0f,-_speed,0f);
             await UniTask.NextFrame();
         }
     }
