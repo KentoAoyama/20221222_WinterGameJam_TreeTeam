@@ -30,8 +30,8 @@ public class ResultKagamiMochi : MonoBehaviour
 
     async private void Awake()
     {
-        await InstantiateMochi();
         _resultUIManager.ChangeActive();
+        await InstantiateMochi();
     }
 
     async private UniTask InstantiateMochi()
