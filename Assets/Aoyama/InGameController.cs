@@ -29,7 +29,7 @@ public class InGameController : MonoBehaviour
 
     private void SetText()
     {
-        _scoreText.text = _score.ToString();
-        _timeText.text = _time.ToString();
+        //_scoreText.text = _score.ToString();
+        //_timeText.text = _time.ToString();
     }
 }
