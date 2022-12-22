@@ -18,7 +18,11 @@ public class MochiController : ItemBase
 
     protected override void OnCollisionEnter(Collision collision)
     {
-        _isMoving = false;
+        if(collision.gameObject.tag == _playerTag)
+        {
+            _isMoving = false;
+            gameObject.tag = _playerTag;
+        }
     }
 
     async protected override void OnMove()

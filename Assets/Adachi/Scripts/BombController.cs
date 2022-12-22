@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class BombController : ItemBase
 {
+    [SerializeField]
+    [Header("Á‚·–İ‚Ì”")]
+    private int _popCount = 4;
+
     private void Awake()
     {
         OnMove();
@@ -18,8 +22,13 @@ public class BombController : ItemBase
 
     protected override void OnCollisionEnter(Collision collision)
     {
-        _isMoving = false;
-        //GameManager‚ª‚Á‚Ä‚¢‚éŠÖ”‚ğŒÄ‚Ño‚·
+        if (collision.gameObject.tag == _playerTag)
+        {
+            _isMoving = false;
+            Destroy(gameObject);
+            //GameManager‚ª‚Á‚Ä‚¢‚éŠÖ”‚ğŒÄ‚Ño‚·
+            GameManager.Instance.BombMochi(_popCount);
+        }
     }
 
     async protected override void OnMove()
