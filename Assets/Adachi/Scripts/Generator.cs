@@ -55,8 +55,8 @@ public class Generator : MonoBehaviour
 
     async private void Generate()
     {
-        var randomTime = Random.Range(_coolTime.MinValue, _coolTime.MaxValue);
-        await UniTask.Delay(randomTime);
+        var randomTime = 0;
+        await UniTask.Delay(3000);
 
         float randomPosX = 0f;
 

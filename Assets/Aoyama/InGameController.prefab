@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4817715612462706790}
   - component: {fileID: 4817715612462706789}
+  - component: {fileID: 7992894993358547790}
   m_Layer: 0
   m_Name: InGameController
   m_TagString: Untagged
@@ -44,7 +45,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af446bc2ede2a5644a4f10e4c88fcf79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sceneSystem: {fileID: 0}
+  _cinemachine: {fileID: 0}
   _scoreText: {fileID: 0}
   _timeText: {fileID: 0}
-  _cinemachine: {fileID: 0}
+  _inGameText: {fileID: 0}
+  _startText: "\u30B9\u30BF\u30FC\u30C8"
+  _finishText: "\u304A\u308F\u308A"
   _gameTime: 50
+  _timerChangeColor: {r: 1, g: 0, b: 0, a: 1}
+  _timerColorChangeInterval: 1
+--- !u!114 &7992894993358547790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4817715612462706791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90005916db7928a4ca88a8e7168fd518, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Home_Name: Home
+  Game_Name: Game
+  Result_Name: Result

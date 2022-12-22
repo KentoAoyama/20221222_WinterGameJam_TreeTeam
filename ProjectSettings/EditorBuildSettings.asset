@@ -4,5 +4,14 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Eso/Home.unity
+    guid: fafe9733d03cebe4fad7deb50c7b1089
+  - enabled: 1
+    path: Assets/Eso/Game.unity
+    guid: b1a76d196350e5c4588660861167187f
+  - enabled: 1
+    path: Assets/Eso/Result.unity
+    guid: e55e2256371915a4f86dd896c7c81faa
   m_configObjects: {}

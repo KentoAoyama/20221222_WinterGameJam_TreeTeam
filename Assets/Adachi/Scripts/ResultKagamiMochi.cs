@@ -40,7 +40,7 @@ public class ResultKagamiMochi : MonoBehaviour
         {
             var mochi = Instantiate(_mochi);
             mochi.transform.SetParent(transform);
-            mochi.transform.ChangePosX(0f);
+            mochi.transform.ChangePosX(-0.73f);
             mochi.transform.ChangePosY(_posY);
             await UniTask.Delay(_coolTime);
         }

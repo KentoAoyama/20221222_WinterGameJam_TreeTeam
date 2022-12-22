@@ -33,6 +33,8 @@ public class GameManager
     private CinemachineVirtualCamera _cinemachine;
     public CinemachineVirtualCamera Cinemachine { get => _cinemachine; set => _cinemachine = value; }
 
+    public GameObject Player;
+
     /// <summary>
     /// –İ‚ğStack‚É’Ç‰Á‚·‚éƒƒ\ƒbƒh
     /// </summary>
@@ -50,6 +52,7 @@ public class GameManager
     {
         for (int i = 0; i < popCount; i++)
         {
+            if (_mochiStack.Count == 0) break;
             _score.Value--;
             var popMochi = _mochiStack.Pop();
             GameObject.Destroy(popMochi);
@@ -59,7 +62,13 @@ public class GameManager
 
     private void ResetCamera()
     {
-        _cinemachine.Follow = _mochiStack.Last().transform;
+        if (_mochiStack.Count == 0)
+        {
+            _cinemachine.Follow = Player.transform;
+            return;
+        }
+
+        _cinemachine.Follow = _mochiStack.First().transform;
     }
 
     public void Reset()

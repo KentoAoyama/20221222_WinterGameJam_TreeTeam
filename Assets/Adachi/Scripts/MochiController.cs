@@ -22,6 +22,7 @@ public class MochiController : ItemBase
         {
             _isMoving = false;
             gameObject.tag = _playerTag;
+            gameObject.layer = 7;
         }
     }
 

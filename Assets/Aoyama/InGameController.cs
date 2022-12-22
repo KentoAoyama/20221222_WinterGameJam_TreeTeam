@@ -14,6 +14,9 @@ public class InGameController : MonoBehaviour
     [SerializeField]
     private CinemachineVirtualCamera _cinemachine;
 
+    [SerializeField]
+    private Generator _generator;
+
     [Header("テキスト関係")]
 
     [SerializeField]
@@ -24,6 +27,9 @@ public class InGameController : MonoBehaviour
 
     [SerializeField]
     private Text _inGameText;
+
+    [SerializeField]
+    private Text _fText;
 
     [SerializeField]
     private string _startText = "スタート";
@@ -44,20 +50,30 @@ public class InGameController : MonoBehaviour
     [SerializeField]
     private float _timerColorChangeInterval = 1.0f;
 
+    float _countDown = 3.9f;
     private float _time = 0f;
     /// <summary>
     /// DoTweenが重複しないようのフラグ
     /// </summary>
     bool _isTimeTextchange = false;
 
+    private static bool _isGame = false;
+    public static bool IsGame => _isGame;
+
+    private bool _isFinish = false;
+
     void Start()
     {
+        GameManager.Instance.Reset();
         GameManager.Instance.Cinemachine = _cinemachine;
+        GameManager.Instance.Player = GameObject.FindGameObjectWithTag("Player");
         _time = _gameTime;
 
         GameManager.Instance.Score
+            .Skip(1)
             .Subscribe(SetScore)
             .AddTo(gameObject);
+
     }
 
     void Update()
@@ -89,26 +105,53 @@ public class InGameController : MonoBehaviour
 
     private void TimeControl()
     {
-        _time -= Time.deltaTime;
-
-        if (_time < _gameTime / 3 && !_isTimeTextchange)
+        if (!_isGame)
         {
-            //残り時間が1/3になったらタイマーの文字を点滅させる
-            _isTimeTextchange = true;
-            _timeText.DOColor(
-                _timerChangeColor,
-                _timerColorChangeInterval)
-                .SetLoops(-1, LoopType.Yoyo);
+            //カウントダウン
+            _countDown -= Time.deltaTime;
+
+            _inGameText.text = Mathf.Floor(_countDown).ToString();
+        }
+        else if (!_isFinish)
+        {
+            _time -= Time.deltaTime;
+
+            if (_time < _gameTime / 3 && !_isTimeTextchange)
+            {
+                //残り時間が1/3になったらタイマーの文字を点滅させる
+                _isTimeTextchange = true;
+                _timeText.DOColor(
+                    _timerChangeColor,
+                    _timerColorChangeInterval)
+                    .SetLoops(-1, LoopType.Yoyo);
+            }
         }
 
-        if (_time < 0)
+        if (_countDown < 1 && _countDown >= 0)
         {
-            FinishGame();
+            //カウントダウンが終わったらゲームを開始
+            _inGameText.text = _startText;           
+        } 
+        else if (_countDown < 0)
+        {
+            _inGameText.text = "";
+            _isGame = true;
+        }
+
+        if (_time < 0 && !_isFinish)
+        {
+            StartCoroutine(FinishGame());
         }
     }
 
-    private void FinishGame()
+    private IEnumerator FinishGame()
     {
+        _isFinish = true;
+        _isGame = false;
+        _generator.ChangeIsGenerating();
+        _fText.text = _finishText;
+        yield return new WaitForSeconds(3.0f);
+        
         _sceneSystem.Result_Scene();
     }
 }
