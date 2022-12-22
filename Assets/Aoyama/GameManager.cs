@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Cinemachine;
+using UniRx;
 
 public class GameManager
 {
@@ -20,36 +21,50 @@ public class GameManager
     }
     private GameManager() { }
 
-    private int _score = 0;
 
-    private float _time = 0f;
+    private IntReactiveProperty _score = new ();
+    /// <summary>
+    /// Ï‚ß‚½–İ‚Ì”
+    /// </summary>
+    public IntReactiveProperty Score => _score;
 
     private Stack<GameObject> _mochiStack = new Stack<GameObject>();
 
-    public CinemachineVirtualCamera Cinemachine;
+    private CinemachineVirtualCamera _cinemachine;
+    public CinemachineVirtualCamera Cinemachine { get => _cinemachine; set => _cinemachine = value; }
 
+    /// <summary>
+    /// –İ‚ğStack‚É’Ç‰Á‚·‚éƒƒ\ƒbƒh
+    /// </summary>
     public void PushMochi(GameObject mochi)
     {
+        _score.Value++;
         _mochiStack.Push(mochi);
         ResetCamera();
     }
 
+    /// <summary>
+    /// ”š’e‚ª‚ ‚½‚Á‚½Û‚Ìˆ—
+    /// </summary>
     public void BombMochi(int popCount)
     {
         for (int i = 0; i < popCount; i++)
         {
-            _mochiStack.Pop();
+            _score.Value--;
+            var popMochi = _mochiStack.Pop();
+            GameObject.Destroy(popMochi);
         }
         ResetCamera();
     }
 
     private void ResetCamera()
     {
-        Cinemachine.Follow = _mochiStack.Last().transform;
+        _cinemachine.Follow = _mochiStack.Last().transform;
     }
 
     public void Reset()
     {
-
+        _score.Value = 0;
+        _cinemachine = default;
     }
 }
