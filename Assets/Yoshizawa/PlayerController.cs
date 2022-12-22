@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     private float _speed = 1f;
     /// <summary>Rigidbody</summary>
     private Rigidbody _rb = null;
+    [SerializeField, Tooltip("")]
+    private string _tagName = "";
     [SerializeField, Tooltip("接触した時に起こすイベント")]
     private UnityEvent _event = null;
 
@@ -30,7 +32,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.name);
-        _event.Invoke();
+        if (collision.gameObject.tag == _tagName)
+        {
+            collision.transform.SetParent(transform);
+            _event.Invoke();
+            Debug.Log(collision.gameObject.name);
+        }
     }
 }
