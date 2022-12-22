@@ -64,6 +64,9 @@ public class InGameController : MonoBehaviour
 
     void Start()
     {
+        _isGame = false;
+        _isFinish = false;
+
         GameManager.Instance.Reset();
         GameManager.Instance.Cinemachine = _cinemachine;
         GameManager.Instance.Player = GameObject.FindGameObjectWithTag("Player");

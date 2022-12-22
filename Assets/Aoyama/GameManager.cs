@@ -52,7 +52,7 @@ public class GameManager
     {
         for (int i = 0; i < popCount; i++)
         {
-            if (_mochiStack.Count == 0) break;
+            if (_score.Value <= 0) break;
             _score.Value--;
             var popMochi = _mochiStack.Pop();
             GameObject.Destroy(popMochi);
