@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody), typeof(BoxCollider))]
 
@@ -11,10 +10,8 @@ public class PlayerController : MonoBehaviour
     private float _speed = 1f;
     /// <summary>Rigidbody</summary>
     private Rigidbody _rb = null;
-    [SerializeField, Tooltip("")]
+    [SerializeField]
     private string _tagName = "";
-    [SerializeField, Tooltip("接触した時に起こすイベント")]
-    private UnityEvent _event = null;
 
     private void Start()
     {
@@ -35,7 +32,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == _tagName)
         {
             collision.transform.SetParent(transform);
-            _event.Invoke();
+            GameManager.Instance.PushMochi(collision.gameObject);
             Debug.Log(collision.gameObject.name);
         }
     }
