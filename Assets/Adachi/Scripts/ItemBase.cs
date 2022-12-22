@@ -6,9 +6,14 @@ public abstract class ItemBase : MonoBehaviour
 {
     [SerializeField]
     [Header("落下スピード")]
-    protected float _speed;
+    [Range(0f,1f)]
+    protected float _speed = 0.05f;
+
+    protected bool _isMoving = true;
 
     protected abstract void OnCollisionEnter(Collision collision);
 
     protected abstract void OnBecameInvisible();
+
+    protected abstract void OnMove();
 }
