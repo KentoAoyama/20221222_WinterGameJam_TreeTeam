@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UniRx;
 
 public class Generator : MonoBehaviour
 {
     [SerializeField]
-    [Header("Y²")]
+    [Header("¶¬‚³‚ê‚½–İ&”š’e‚ÌY²")]
     float _posY;
 
     [SerializeField]
@@ -19,14 +20,37 @@ public class Generator : MonoBehaviour
     Value<float> _posXRange;
 
     [SerializeField]
+    [Header("ƒJƒƒ‰")]
+    Camera _camera;
+
+    [SerializeField]
+    [Header("ÅŒã‚É‚Ì‚¹‚éò")]
+    BitterOrangeController _bitterOrange;
+
+    [SerializeField]
     [Header("—‰º•¨(–İ&”š’e)")]
     ItemData[] _item = new ItemData[2];
+
+    private bool _isGenerating = true;
 
     const float MAX_VALUE_F = 100f;
 
     private void Awake()
     {
+        float _firstPosY = _posY;
+        _camera
+            .ObserveEveryValueChanged(camera => camera.transform.position.y)
+            .Subscribe(y => _posY = _firstPosY + y);
         Generate();
+    }
+
+    /// <summary>
+    /// ÅŒã‚Éò‚ğ¶¬‚·‚é
+    /// c‚èŠÔ‚ªÅŒã‚Ì•û‚É‚È‚Á‚½‚çŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+    /// </summary>
+    public void ChangeIsGenerating()
+    {
+        _isGenerating = false;
     }
 
     async private void Generate()
@@ -34,18 +58,27 @@ public class Generator : MonoBehaviour
         var randomTime = Random.Range(_coolTime.MinValue, _coolTime.MaxValue);
         await UniTask.Delay(randomTime);
 
-        while (true)
+        float randomPosX = 0f;
+
+        while (_isGenerating)
         {
             var item = Instantiate(_item[RandomIndex(_item)].Item);
             item.transform.SetParent(transform);
 
-            var randomPosX = Random.Range(_posXRange.MinValue, _posXRange.MaxValue);
+            randomPosX = Random.Range(_posXRange.MinValue, _posXRange.MaxValue);
             item.transform.ChangePosX(randomPosX);
             item.transform.ChangePosY(_posY);
 
             randomTime = Random.Range(_coolTime.MinValue, _coolTime.MaxValue);
             await UniTask.Delay(randomTime);
         }
+
+        var bitterOrange = Instantiate(_bitterOrange);
+        bitterOrange.transform.SetParent(transform);
+
+        randomPosX = Random.Range(_posXRange.MinValue, _posXRange.MaxValue);
+        bitterOrange.transform.ChangePosX(randomPosX);
+        bitterOrange.transform.ChangePosY(_posY);
     }
 
     /// <summary>

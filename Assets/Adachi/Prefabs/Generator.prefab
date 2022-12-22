@@ -51,6 +51,8 @@ MonoBehaviour:
   _posXRange:
     _minValue: -4
     _maxValue: 4
+  _camera: {fileID: 0}
+  _bitterOrange: {fileID: 2833138674292151930, guid: 40ff853b80e051642bd3b93ea63cc858, type: 3}
   _item:
   - _item: {fileID: 3338583425863386318, guid: 3272473be99483c458ec638e129b7f96, type: 3}
     _probability: 1

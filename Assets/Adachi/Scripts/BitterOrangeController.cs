@@ -24,6 +24,7 @@ public class BitterOrangeController : ItemBase
         if (collision.gameObject.tag == _playerTag)
         {
             _isMoving = false;
+            transform.SetParent(collision.transform);
         }
     }
 
